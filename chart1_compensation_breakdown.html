@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compensation Awards Breakdown – Jan–Jun 2025</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; color: #1a1a1a; padding: 24px; }
+  h1 { font-size: 15px; font-weight: 500; color: #444; margin-bottom: 4px; }
+  p.sub { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .metric { background: #f5f5f3; border-radius: 8px; padding: 12px 14px; }
+  .metric .label { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .metric .value { font-size: 20px; font-weight: 500; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; font-size: 12px; color: #666; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .chart-wrap { position: relative; width: 100%; height: 340px; }
+</style>
+</head>
+<body>
+
+<h1>Breakdown of compensation assessments – Jan–Jun 2025</h1>
+<p class="sub">% share of awards by category vs prior periods</p>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="label">Total awards</div>
+    <div class="value">4,543</div>
+  </div>
+  <div class="metric">
+    <div class="label">Motor liability share</div>
+    <div class="value" style="color:#185FA5;">69%</div>
+  </div>
+  <div class="metric">
+    <div class="label">Period</div>
+    <div class="value" style="font-size:15px; padding-top:4px;">Jan–Jun 2025</div>
+  </div>
+</div>
+
+<div class="legend">
+  <span><i style="background:#185FA5;"></i>Jan–Jun 2025</span>
+  <span><i style="background:#85B7EB;"></i>Jan–Jun 2024</span>
+  <span><i style="background:#BA7517;"></i>Full year 2024</span>
+</div>
+
+<div class="chart-wrap">
+  <canvas id="chart" role="img" aria-label="Grouped bar chart showing award percentages by category across three periods">Motor Liability: 69%, 69%, 69%. Public Liability: 15%, 18%, 17%. Employer Liability: 12%, 13%, 13%. Garda Compensation: 4%, 1%, 2%.</canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('chart'), {
+  type: 'bar',
+  data: {
+    labels: ['Motor Liability', 'Public Liability', 'Employer Liability', 'Garda Compensation'],
+    datasets: [
+      { label: 'Jan–Jun 2025', data: [69,15,12,4], backgroundColor: '#185FA5', borderRadius: 4, borderSkipped: false },
+      { label: 'Jan–Jun 2024', data: [69,18,13,1], backgroundColor: '#85B7EB', borderRadius: 4, borderSkipped: false },
+      { label: 'Full year 2024', data: [69,17,13,2], backgroundColor: '#BA7517', borderRadius: 4, borderSkipped: false }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 1200,
+      easing: 'easeOutQuart',
+      delay: (ctx) => ctx.dataIndex * 120 + ctx.datasetIndex * 40
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y}%` } }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 12 }, color: '#888' } },
+      y: {
+        beginAtZero: true, max: 80,
+        ticks: { font: { size: 12 }, color: '#888', callback: (v) => v + '%' },
+        grid: { color: 'rgba(0,0,0,0.06)' }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
