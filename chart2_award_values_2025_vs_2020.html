@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Award Values 2025 vs 2020</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; color: #1a1a1a; padding: 24px; }
+  h1 { font-size: 15px; font-weight: 500; color: #444; margin-bottom: 4px; }
+  p.sub { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+  .metric { background: #f5f5f3; border-radius: 8px; padding: 12px 14px; }
+  .metric .label { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .metric .value { font-size: 18px; font-weight: 500; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; font-size: 12px; color: #666; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .chart-wrap { position: relative; width: 100%; height: 360px; }
+</style>
+</head>
+<body>
+
+<h1>Average and median award values – Jan–Jun 2025 vs 2020</h1>
+<p class="sub">All figures in euros. Significant reductions across all categories since 2020.</p>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="label">Overall median change</div>
+    <div class="value" style="color:#A32D2D;">-28%</div>
+  </div>
+  <div class="metric">
+    <div class="label">Overall average change</div>
+    <div class="value" style="color:#A32D2D;">-19%</div>
+  </div>
+  <div class="metric">
+    <div class="label">Biggest median drop</div>
+    <div class="value" style="color:#A32D2D;">-39% (PL)</div>
+  </div>
+  <div class="metric">
+    <div class="label">Smallest drop</div>
+    <div class="value" style="color:#BA7517;">-7% (EL avg)</div>
+  </div>
+</div>
+
+<div class="legend">
+  <span><i style="background:#185FA5;"></i>2025 median</span>
+  <span><i style="background:#85B7EB;"></i>2020 median</span>
+  <span><i style="background:#1D9E75;"></i>2025 average</span>
+  <span><i style="background:#9FE1CB;"></i>2020 average</span>
+</div>
+
+<div class="chart-wrap">
+  <canvas id="chart" role="img" aria-label="Grouped bar chart comparing 2025 vs 2020 median and average award values by liability category">Award values have fallen significantly since 2020 across all categories.</canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('chart'), {
+  type: 'bar',
+  data: {
+    labels: ['Motor Liability', 'Public Liability', 'Employer Liability', 'Overall'],
+    datasets: [
+      { label: '2025 median', data: [12552,12677,20250,13300], backgroundColor: '#185FA5', borderRadius: 3, borderSkipped: false },
+      { label: '2020 median', data: [17938,20645,23447,18422], backgroundColor: '#85B7EB', borderRadius: 3, borderSkipped: false },
+      { label: '2025 average', data: [17686,19816,28330,19343], backgroundColor: '#1D9E75', borderRadius: 3, borderSkipped: false },
+      { label: '2020 average', data: [22158,26000,30576,23877], backgroundColor: '#9FE1CB', borderRadius: 3, borderSkipped: false }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 1100,
+      easing: 'easeOutQuart',
+      delay: (ctx) => ctx.dataIndex * 100 + ctx.datasetIndex * 30
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (ctx) => ` ${ctx.dataset.label}: €${ctx.parsed.y.toLocaleString()}` } }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#888', autoSkip: false } },
+      y: {
+        beginAtZero: false, min: 0, max: 35000,
+        ticks: { font: { size: 11 }, color: '#888', callback: (v) => '€' + (v/1000).toFixed(0) + 'k' },
+        grid: { color: 'rgba(0,0,0,0.06)' }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
